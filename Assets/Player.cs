@@ -50,6 +50,6 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         //Vector3 direction = goalRotation * Vector3.forward;
-        Debug.DrawRay(transform.position, direction, Color.red,0.02f);
+        //Debug.DrawRay(transform.position, direction, Color.red,0.02f);
     }
 }
