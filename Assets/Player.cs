@@ -1,22 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using EZCameraShake;
 
 public class Player : MonoBehaviour
 {
+    bool attacking = false;
     public Rigidbody rb;
     public float speed = 1f;
     public float rotationSpeed = 1f;
+    public float kickbackForward, kickbackUpward;
     public Animator anim;
     float horizontal;
     float vertical;
     Vector3 direction;
+    public CollisionEvents collisionEvents;
+    static int kickState = Animator.StringToHash("BencaoKick");
+    static int runningState = Animator.StringToHash("Running");
+    static int idleState = Animator.StringToHash("Idle");
+    public Collider AttackBox;
+    private void Start()
+    {
+        collisionEvents.Collided.AddListener(OnCollision);
+    }
 
+    void OnCollision(Collision collision)
+    {
+        var currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (currentBaseState.shortNameHash == kickState)
+        {
+            collision.rigidbody.AddForce(transform.forward * kickbackForward + Vector3.up * kickbackUpward, ForceMode.VelocityChange);
+            collision.rigidbody.angularVelocity = new Vector3 (5f, 0f, 5f);
+            CameraShaker.Instance.ShakeOnce(4f, 4f, 0.4f, 0.4f);
+            Debug.Log("we hit the box");
+        }
+    }
+    void Attack()
+    {
+        AttackBox.gameObject.SetActive(true);
+        Debug.Log("Attack event");
+    }
+
+    void Recover()
+    {
+        AttackBox.gameObject.SetActive(false);
+        Debug.Log("Recover event");
+    }
     // Update is called once per frame
     void Update()
     {
-        vertical = 0f;
-        horizontal = 0f;
+        var currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
+        if (Input.GetKeyDown(KeyCode.J) && currentBaseState.shortNameHash != kickState)
+        {
+            anim.SetTrigger("KickTrigger");
+        }
+        vertical = 0f; // = Input.GetAxis("Y");
+        horizontal = 0f; // = Input.GetAxis("X");
         if (Input.GetKey(KeyCode.W)) vertical += 1f;
         if (Input.GetKey(KeyCode.S)) vertical += -1f;
         if (Input.GetKey(KeyCode.A)) horizontal += -1f;
