@@ -599,5 +599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8251616082509959765}
-  speed: 1
+  speed: 2
+  rotationSpeed: 90
   anim: {fileID: 8251616082509959764}
