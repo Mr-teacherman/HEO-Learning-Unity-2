@@ -31,8 +31,14 @@ public class Player : MonoBehaviour
 
         if (currentBaseState.shortNameHash == kickState)
         {
-            collision.rigidbody.AddForce(transform.forward * kickbackForward + Vector3.up * kickbackUpward, ForceMode.VelocityChange);
-            collision.rigidbody.angularVelocity = new Vector3 (5f, 0f, 5f);
+            var attack = new Attack();
+            attack.damage = 1f;
+            attack.collision = collision;
+            attack.attacker = transform;
+            attack.kickbackForward = kickbackForward;
+            attack.kickbackUpward = kickbackUpward;
+            var attackable = collision.gameObject.GetComponent<IAttackable>();
+            attackable.SendAttack(attack);
             CameraShaker.Instance.ShakeOnce(4f, 4f, 0.4f, 0.4f);
             Debug.Log("we hit the box");
         }
