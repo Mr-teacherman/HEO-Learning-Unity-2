@@ -109,17 +109,17 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AnimatorController
+  m_Name: PlanetGuyController
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Running
-    m_Type: 4
+  - m_Name: KickTrigger
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: KickTrigger
-    m_Type: 9
+  - m_Name: Speed
+    m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -145,9 +145,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: StartRunning
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Running
-    m_EventTreshold: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: Speed
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4354158494172977476}
   m_Solo: 0
@@ -170,9 +170,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: StopRunning
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Running
-    m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: Speed
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6094709002335811211}
   m_Solo: 0
@@ -219,7 +219,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BencaoKick
+  m_Name: Attacking
   m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:

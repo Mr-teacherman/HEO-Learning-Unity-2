@@ -10,6 +10,7 @@ public interface IAttackable
 public class Attack
 {
     public float damage;
+
     public Collision collision;
     public Transform attacker;
     public float kickbackForward;
