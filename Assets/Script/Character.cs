@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
     public Animator anim;
     public Vector3 direction;
     public CollisionEvents collisionEvents;
-    static int kickState = Animator.StringToHash("Attacking");
+    public int attackState = Animator.StringToHash("Attacking");
     public Collider AttackBox;
     private void Start()
     {
@@ -22,9 +22,14 @@ public class Character : MonoBehaviour
 
     void OnCollision(Collision collision)
     {
+        if (collision.transform.root == transform.root)
+        {
+            return;
+        }
+
         var currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
 
-        if (currentBaseState.shortNameHash == kickState)
+        if (currentBaseState.shortNameHash == attackState)
         {
             var attack = new Attack();
             attack.damage = 1f;
@@ -59,9 +64,9 @@ public class Character : MonoBehaviour
     public void DoAttack()
     {
         var currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
-        if (currentBaseState.shortNameHash != kickState)
+        if (currentBaseState.shortNameHash != attackState)
         {
-            anim.SetTrigger("KickTrigger");
+            anim.SetTrigger("AttackTrigger");
         }
     }
 
@@ -69,7 +74,8 @@ public class Character : MonoBehaviour
     {
         if (direction != Vector3.zero)
         {
-            rb.velocity = transform.forward * speed;
+            var forwardVector = transform.forward * speed;
+            rb.velocity = new Vector3(forwardVector.x, rb.velocity.y, forwardVector.z);
             //var currentRotation = Quaternion.LookRotation(transform.forward);
             var targetRotation = Quaternion.LookRotation(direction);
             var angleA = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;

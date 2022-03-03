@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IAttackable
 {
+    public Health health;
+    public DamageIndicator dmgIndicatorPrefab;
     public Character character;
     float horizontal;
     float vertical;
@@ -26,6 +28,14 @@ public class Player : MonoBehaviour
         character.direction = new Vector3(horizontal, 0, vertical);
         character.direction = Quaternion.AngleAxis(-45, Vector3.up) * character.direction;
         
+    }
+    public void SendAttack(Attack attack)
+    {
+        //I got an attack sent to me
+        attack.collision.rigidbody.AddForce(attack.attacker.forward * attack.kickbackForward + Vector3.up * attack.kickbackUpward, ForceMode.VelocityChange);
+        health.currentHealth -= 1f;
+        var dmgIndicator = Instantiate(dmgIndicatorPrefab);
+        dmgIndicator.SetAttack(attack);
     }
 
     private void OnDrawGizmos()
