@@ -13483,7 +13483,7 @@ MonoBehaviour:
   capCollider: {fileID: 0}
   groundedOffset: 0.5
   speed: 4
-  airSpeed: 200
+  airSpeed: 250
   rotationSpeed: 500
   kickbackForward: 10
   kickbackUpward: 10

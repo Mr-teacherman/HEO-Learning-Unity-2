@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
     RaycastHit[] results = new RaycastHit[10];
     public LayerMask groundedLayers;
     public PhysicMaterial FullFric, NoFric;
-
+    bool triggerJump;
     private void Start()
     {
         capCollider = GetComponent<CapsuleCollider>();
@@ -72,6 +72,10 @@ public class Character : MonoBehaviour
     {
         var currentSpeed = rb.velocity.magnitude / speed;
         anim.SetFloat("Speed", currentSpeed);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            triggerJump = true;
+        }
     }
 
     public void DoAttack()
@@ -121,7 +125,7 @@ public class Character : MonoBehaviour
                 rb.velocity = new Vector3(forwardVector.x, rb.velocity.y, forwardVector.z);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (triggerJump)
             {
                 anim.SetTrigger("JumpTrigger");
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -137,7 +141,7 @@ public class Character : MonoBehaviour
             var angleB = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             // get the signed difference in these angles
             var angleDiff = Mathf.DeltaAngle(angleA, angleB);            
-            if (velocityNoY.magnitude < speed*1.25f || !(angleDiff > -45 && angleDiff < 45))
+            if (velocityNoY.magnitude < speed*1.5f || !(angleDiff > -45 && angleDiff < 45))
             {
                 rb.AddForce(new Vector3(direction.x, 0, direction.z) * airSpeed, ForceMode.Force);
             }
@@ -147,5 +151,6 @@ public class Character : MonoBehaviour
                 rb.velocity = new Vector3(breakSpeed.x, rb.velocity.y, breakSpeed.z);
             }
         }
+        triggerJump = false;
     }
 }
