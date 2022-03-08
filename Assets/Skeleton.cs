@@ -14,4 +14,16 @@ public class Skeleton : MonoBehaviour, IAttackable
         var dmgIndicator = Instantiate(dmgIndicatorPrefab);
         dmgIndicator.SetAttack(attack);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        var attack = new Attack();
+        attack.damage = 1f;
+        attack.collision = collision;
+        attack.attacker = transform;
+        attack.kickbackForward = 5f;
+        attack.kickbackUpward = 5f;
+        var attackable = collision.gameObject.GetComponent<IAttackable>();
+        attackable.SendAttack(attack);
+    }
 }
