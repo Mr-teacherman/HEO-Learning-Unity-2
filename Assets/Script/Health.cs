@@ -21,6 +21,11 @@ public class Health : MonoBehaviour
         {
             Die();
         }
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 
     void Die()

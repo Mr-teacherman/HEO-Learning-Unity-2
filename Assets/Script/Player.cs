@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Player : MonoBehaviour, IAttackable
+public class Player : MonoBehaviour, IAttackable, IHealable
 {
     public Health health;
     public DamageIndicator dmgIndicatorPrefab;
     public Character character;
+    public AnimationEvents animEvents;
     float horizontal;
     float vertical;
+    void Start()
+    {
+        animEvents.AttackEvent.AddListener(character.Attack);
+        animEvents.RecoverEvent.AddListener(character.Recover);
 
+    }
     // Update is called once per frame
     void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             character.DoAttack();
@@ -27,7 +32,7 @@ public class Player : MonoBehaviour, IAttackable
         if (Input.GetKey(KeyCode.D)) horizontal += 1f;
         character.direction = new Vector3(horizontal, 0, vertical);
         character.direction = Quaternion.AngleAxis(-45, Vector3.up) * character.direction;
-        
+
     }
     public void SendAttack(Attack attack)
     {
@@ -42,5 +47,12 @@ public class Player : MonoBehaviour, IAttackable
     {
         //Vector3 direction = goalRotation * Vector3.forward;
         //Debug.DrawRay(transform.position, direction, Color.red,0.02f);
+    }
+
+    public void SendHeal(Heal heal)
+    {
+        Debug.Log("got healed");
+        health.currentHealth += heal.healthPoints;
+
     }
 }

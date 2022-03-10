@@ -56,13 +56,13 @@ public class Character : MonoBehaviour
             Debug.Log("we hit the box");
         }
     }
-    void Attack()
+    public void Attack()
     {
         AttackBox.gameObject.SetActive(true);
         Debug.Log("Attack event");
     }
 
-    void Recover()
+    public void Recover()
     {
         AttackBox.gameObject.SetActive(false);
         Debug.Log("Recover event");
